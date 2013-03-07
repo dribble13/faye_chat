@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>ws chat</title>
+    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function() {
+        var ws = connectServer(null);
+        setInterval(function() {
+          console.log("connect check");
+          ws = connectServer(ws);
+          console.log("connect check end");
+        }, 50000);
+
+        $("#send_button").click(function() {
+          if (ws == null || ws.readyState != 1) {
+            ws = connectServer(ws);
+          }
+          ws.send($("#comment").val());
+          $("#comment").val("");
+        });
+
+        function connectServer(connection) {
+          var hostname = "ws://www22099ue.sakura.ne.jp/faye";
+          console.log("connect start!!" + (new Date()));
+          if (connection != null) {
+            connection.close();
+          }
+          var newConnection = new WebSocket(hostname);
+          newConnection.onopen = function() {
+            newConnection.onmessage = function(data) {
+              var newLine = $(document.createElement('li')).append(data.data);
+              $("#chat_log").append(newLine);
+            };
+          };
+          console.log("connect success!!" + (new Date()));
+          return newConnection;
+        }
+      });
+    </script>
+  </head>
+  <body>
+    <form method="post" action="./">
+      <input type="text" id="comment" name="comment">
+      <button id="send_button" type="button">送信</button>
+    </form>
+
+    <ul id="chat_log">
+    </ul>
+
+  </body>
+</html>

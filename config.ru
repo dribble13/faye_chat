@@ -1,3 +1,4 @@
+require 'faye'
 require './chat'
 
 Faye::WebSocket.load_adapter('thin')
