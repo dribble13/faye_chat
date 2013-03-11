@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <title>ws chat</title>
-    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
     <script type="text/javascript">
       $(document).ready(function() {
         if (!window.WebSocket) {
@@ -46,7 +46,7 @@
     </script>
   </head>
   <body>
-    <form method="post" action="./">
+    <form method="post" action="/">
       <input type="text" id="comment" name="comment">
       <button id="send_button" type="button">送信</button>
     </form>

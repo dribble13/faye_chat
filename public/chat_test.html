@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>use Faye</title>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="http://www22099ue.sakura.ne.jp/faye/client.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function() {
+        var faye = new Faye.Client("http://www22099ue.sakura.ne.jp/faye");
+        faye.subscribe('/chat', function(data) {
+          console.dir(data);
+          var newLine = $(document.createElement('li')).append(data.text);
+          $("#chat_log").append(newLine);
+        });
+        
+        $("#send_button").click(function() {
+          faye.publish("/chat", {text: $("#comment").val()});
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <form method="post" action="http://www22099.ue.sakura.ne.jp/faye">
+      <input type="hidden" name="channel" value="/chat" />
+      <input type="text" id="comment" name="data" />
+      <button id="send_button" type="button">送信</button>
+    </form>
+    
+    <ul id="chat_log">
+    </ul>
+  </body>
+</html>
